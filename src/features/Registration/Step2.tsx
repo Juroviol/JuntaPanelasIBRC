@@ -116,7 +116,7 @@ export default function Step2() {
           </Typography.Title>
         )}
 
-        <Flex gap={5}>
+        <Flex gap={10}>
           <Typography.Text>Não consigo levar, mas quero participar</Typography.Text>
           <Switch value={byPassMinProductsRule} onChange={(value) => setByPassMinProductsRule(value)} />
         </Flex>
