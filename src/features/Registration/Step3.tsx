@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Flex, Typography } from "antd";
+import { Flex, Typography } from "antd";
 import Lottie from "react-lottie";
 import * as checkAnimation from "@/assets/check.json";
 import Detail from "@/features/Registration/Detail";
