@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ProductsService from "@/services/ProductsService";
 import Product from "@/models/ProductModel";
-import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Typography } from "antd";
+import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Tooltip, Typography } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useStore } from "@/contexts/StoreContext";
 import RegistrationService from "@/services/RegistrationService";
@@ -95,7 +95,7 @@ export default function Step2() {
         renderItem={(product) => {
           const qty = (registration!.products || []).find((p) => p.product.id === product.id)?.qty || 0;
           return (
-            <List.Item>
+            <List.Item key={product.id}>
               <ConfigProvider
                 theme={{
                   token: {
@@ -105,7 +105,9 @@ export default function Step2() {
               >
                 <Card>
                   <Flex vertical align="center" gap={10}>
-                    <img src={product.image} height={100} />
+                    <Tooltip title={product.observation} open={!!product.observation}>
+                      <img src={product.image} height={100} />
+                    </Tooltip>
                     <Typography.Text>{product.name}</Typography.Text>
                     <Flex gap={10} align="center">
                       <Button

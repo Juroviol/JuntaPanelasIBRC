@@ -19,11 +19,13 @@ class ProductsService {
       const id = r.id;
       const name = r.fields["Descrição"] as string;
       const qty = r.fields["Quantidade"] as number;
+      const observation = r.fields["Observação"] as string;
       const [image] = r.fields["Imagem"] as Array<Attachment>;
       return {
         id,
         name,
         qty,
+        observation,
         image: image.url,
       };
     });
