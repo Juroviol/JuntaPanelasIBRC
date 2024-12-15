@@ -1,5 +1,20 @@
 import React, { useCallback, useState } from "react";
-import { Button, Divider, Flex, Form, Input, message, Modal, Switch, Typography } from "antd";
+import { get, range } from "lodash";
+import {
+  Button,
+  Col,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Row,
+  Select,
+  Switch,
+  Typography,
+} from "antd";
 import { useStore } from "@/contexts/StoreContext";
 import Registration from "@/models/RegistrationModel";
 import PhoneInput from "@/components/PhoneInput";
@@ -45,8 +60,21 @@ export default function Step1() {
       >
         Confirmar Presença
       </Typography.Title>
-      <Form layout="vertical" onFinish={handleOnFinish} validateTrigger="onSubmit">
-        <Form.Item name="name" label="Nome" required rules={[{ required: true, message: "Preecha o campo" }]}>
+      <Form
+        layout="vertical"
+        onFinish={handleOnFinish}
+        validateTrigger="onSubmit"
+        initialValues={{
+          qtyAdults: 0,
+          qtyChildren: 0,
+        }}
+      >
+        <Form.Item
+          name="name"
+          label="Nome (somente um da família)"
+          required
+          rules={[{ required: true, message: "Preecha o campo" }]}
+        >
           <Input size="large" />
         </Form.Item>
         <Form.Item
@@ -56,7 +84,6 @@ export default function Step1() {
           rules={[
             {
               validator: (_, value) => {
-                console.log(value);
                 if (!value) {
                   return Promise.reject(new Error("Preencha o campo"));
                 }
@@ -70,14 +97,132 @@ export default function Step1() {
         >
           <PhoneInput />
         </Form.Item>
-        <Flex justify="center" style={{ paddingTop: 10 }}>
-          <Form.Item label="Me voluntariar para ajudar" name="volunteer">
-            <Switch />
-          </Form.Item>
-          <Form.Item label="Vou precisar de carona" name="needRide">
-            <Switch />
-          </Form.Item>
-        </Flex>
+        <Row>
+          <Col
+            xl={{
+              span: 8,
+            }}
+            xs={{
+              span: 24,
+            }}
+          >
+            <Form.Item
+              name="qtyAdults"
+              label="Quantos adultos?"
+              required
+              rules={[{ required: true, message: "Preecha o campo" }]}
+            >
+              <InputNumber min={0} max={10} size="large" />
+            </Form.Item>
+          </Col>
+          <Col
+            xl={{
+              span: 8,
+            }}
+            xs={{
+              span: 24,
+            }}
+          >
+            <Form.Item
+              name="qtyChildren"
+              label="Quantas crianças?"
+              required
+              rules={[{ required: true, message: "Preecha o campo" }]}
+            >
+              <InputNumber min={0} max={10} size="large" />
+            </Form.Item>
+          </Col>
+          <Col
+            xl={{
+              span: 8,
+            }}
+            xs={{
+              span: 24,
+            }}
+          >
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, nextValues) =>
+                get(prevValues, "qtyChildren") !== get(nextValues, "qtyChildren")
+              }
+            >
+              {({ getFieldValue }) =>
+                (getFieldValue("qtyChildren") || 0) > 0 ? (
+                  <Form.Item
+                    name="childrenAges"
+                    label={(getFieldValue("qtyChildren") || 0) > 1 ? "Idade das crianças" : "Idade da criança"}
+                    required
+                    rules={[
+                      {
+                        type: "array",
+                        validator: (_, value) => {
+                          if (!value || !value.length) {
+                            return Promise.reject(new Error("Preencha o campo"));
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                  >
+                    <Select
+                      mode="multiple"
+                      size="large"
+                      options={range(0, 18).map((age) => ({
+                        label: age,
+                        value: age,
+                      }))}
+                    />
+                  </Form.Item>
+                ) : null
+              }
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={{
+              span: 24,
+            }}
+            xl={{
+              span: 8,
+            }}
+          >
+            <Form.Item label="Vou precisar de carona" name="needRide">
+              <Switch />
+            </Form.Item>
+          </Col>
+          <Col
+            xs={{
+              span: 24,
+            }}
+            xl={{
+              span: 8,
+            }}
+          >
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, nextValues) =>
+                get(prevValues, "needRide") !== get(nextValues, "needRide") ||
+                get(prevValues, "qtyAdults") !== get(nextValues, "qtyAdults") ||
+                get(prevValues, "qtyChildren") !== get(nextValues, "qtyChildren")
+              }
+            >
+              {({ getFieldValue, setFieldValue }) => {
+                setFieldValue("qtyRide", (getFieldValue("qtyAdults") || 0) + (getFieldValue("qtyChildren") || 0));
+                return getFieldValue("needRide") ? (
+                  <Form.Item
+                    name="qtyRide"
+                    required
+                    rules={[{ required: true, message: "Preecha o campo" }]}
+                    label="Carona para quantas pessoas?"
+                  >
+                    <InputNumber min={0} max={10} size="large" />
+                  </Form.Item>
+                ) : null;
+              }}
+            </Form.Item>
+          </Col>
+        </Row>
         <Divider />
         <Flex justify="center" vertical gap={10} align="center">
           <Button htmlType="submit" variant="solid" color="primary" size="large">
@@ -97,7 +242,6 @@ export default function Step1() {
             rules={[
               {
                 validator: (_, value) => {
-                  console.log(value);
                   if (!value) {
                     return Promise.reject(new Error("Preencha o campo"));
                   }

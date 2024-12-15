@@ -5,7 +5,9 @@ export default interface Registration {
   name: string;
   email?: string;
   phone?: string;
-  volunteer: boolean;
-  needRide: boolean;
+  qtyAdults: number;
+  qtyChildren: number;
+  qtyRide: number;
+  childrenAges: string[];
   products?: { qty: number; product: Product }[];
 }

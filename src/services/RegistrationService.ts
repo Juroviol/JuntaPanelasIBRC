@@ -17,8 +17,10 @@ class RegistrationService {
       Nome: registration.name,
       "E-mail": registration.email,
       Telefone: registration.phone,
-      Voluntário: registration.volunteer,
-      Carona: registration.needRide,
+      Carona: registration.qtyRide,
+      Adultos: registration.qtyAdults,
+      Crianças: registration.qtyChildren,
+      Idades: registration.childrenAges.map((age) => age.toString()),
     });
     await Promise.all(
       (registration.products || []).map(async (p) =>
@@ -93,8 +95,10 @@ class RegistrationService {
       name: registrationResult.fields["Nome"] as string,
       email: registrationResult.fields["E-mail"] as string,
       phone: registrationResult.fields["Phone"] as string,
-      volunteer: registrationResult.fields["Voluntário"] as boolean,
-      needRide: registrationResult.fields["Carona"] as boolean,
+      qtyAdults: registrationResult.fields["Adultos"] as number,
+      qtyChildren: registrationResult.fields["Crianças"] as number,
+      qtyRide: registrationResult.fields["Carona"] as number,
+      childrenAges: registrationResult.fields["Idades"] as string[],
       products: registrationProductsResult.map((rp) => {
         const product = products.find((p) => p.fields["Descrição"] === (rp.fields["Produto"] as string))!;
         const [image] = product.fields["Imagem"] as Array<Attachment>;
@@ -137,8 +141,10 @@ class RegistrationService {
         name: registrationResult.fields["Nome"] as string,
         email: registrationResult.fields["E-mail"] as string,
         phone: registrationResult.fields["Phone"] as string,
-        volunteer: registrationResult.fields["Voluntário"] as boolean,
-        needRide: registrationResult.fields["Carona"] as boolean,
+        qtyAdults: registrationResult.fields["Adultos"] as number,
+        qtyChildren: registrationResult.fields["Crianças"] as number,
+        qtyRide: registrationResult.fields["Carona"] as number,
+        childrenAges: registrationResult.fields["Idades"] as string[],
         products: registrationProductsResult.map((rp) => {
           const product = products.find((p) => p.fields["Descrição"] === (rp.fields["Produto"] as string))!;
           const [image] = product.fields["Imagem"] as Array<Attachment>;

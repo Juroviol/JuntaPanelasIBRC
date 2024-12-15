@@ -26,7 +26,7 @@ export default function Index() {
     if (step === 1) {
       return {
         xs: { span: 22, offset: 1 },
-        xl: { span: 10, offset: 7 },
+        xl: { span: 12, offset: 6 },
         xxl: { span: 8, offset: 8 },
       };
     }
