@@ -1,19 +1,38 @@
 import React, { useCallback, useState } from "react";
-import { Button, Divider, Flex, Form, Input, Modal, Typography } from "antd";
+import { Button, Divider, Flex, Form, Input, Modal, Typography, message } from "antd";
 import { useStore } from "@/contexts/StoreContext";
 import Registration from "@/models/RegistrationModel";
 import PhoneInput from "@/components/PhoneInput";
 import Link from "@/components/Link";
+import RegistrationService from "@/services/RegistrationService";
 
 export default function Step1() {
   const { setRegistration, setStep } = useStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConsulting, setIsConsulting] = useState(false);
   const handleOnFinish = useCallback(
     (values: Registration) => {
       setRegistration(values);
       setStep(2);
     },
     [setStep, setRegistration]
+  );
+
+  const handleOnFinishConsulting = useCallback(
+    ({ phone }: { phone: string }) => {
+      setIsConsulting(true);
+      RegistrationService.findByPhone(phone).then((registration) => {
+        setIsConsulting(false);
+        if (registration) {
+          setRegistration(registration);
+          setIsModalOpen(false);
+          setStep(3);
+        } else {
+          message.info("Não foi encontrato nenhum registro para o telefone informado.");
+        }
+      });
+    },
+    [setStep]
   );
 
   return (
@@ -65,7 +84,7 @@ export default function Step1() {
         </Flex>
       </Form>
       <Modal open={isModalOpen} closable footer={null} onCancel={() => setIsModalOpen(false)} width={300}>
-        <Form layout="vertical">
+        <Form layout="vertical" onFinish={handleOnFinishConsulting}>
           <Form.Item
             name="phone"
             label="Telefone"
@@ -88,7 +107,7 @@ export default function Step1() {
             <PhoneInput />
           </Form.Item>
           <Flex justify="center">
-            <Button htmlType="submit" variant="solid" color="primary" size="large">
+            <Button htmlType="submit" variant="solid" color="primary" size="large" loading={isConsulting}>
               Consultar
             </Button>
           </Flex>

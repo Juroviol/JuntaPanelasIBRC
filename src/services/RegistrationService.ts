@@ -106,6 +106,49 @@ class RegistrationService {
       }),
     };
   }
+
+  async findByPhone(phone: string): Promise<Registration | null> {
+    const registrationsResults = await this.registrationsTable
+      .select({
+        view: "Registros",
+        filterByFormula: `{Telefone} = '${phone}'`,
+      })
+      .firstPage();
+    if (registrationsResults.length) {
+      const registrationResult = registrationsResults.at(0)!;
+      const products = await this.productsTable
+        .select({
+          view: "Produtos",
+        })
+        .firstPage();
+      const registrationProductsResult = await this.registrationsProductsTable
+        .select({
+          view: "RegistrosProdutos",
+          filterByFormula: `{Registro} = '${registrationResult.fields["Nome"]}'`,
+        })
+        .firstPage();
+      return {
+        id: registrationResult.id,
+        name: registrationResult.fields["Nome"] as string,
+        email: registrationResult.fields["E-mail"] as string,
+        phone: registrationResult.fields["Phone"] as string,
+        products: registrationProductsResult.map((rp) => {
+          const product = products.find((p) => p.fields["Descrição"] === (rp.fields["Produto"] as string))!;
+          const [image] = product.fields["Imagem"] as Array<Attachment>;
+          return {
+            product: {
+              name: rp.fields["Produto"] as string,
+              id: product.id,
+              qty: product.fields["Quantidade"] as number,
+              image: image.url,
+            },
+            qty: rp.fields["Quantidade"] as number,
+          };
+        }),
+      };
+    }
+    return null;
+  }
 }
 
 const registrationService = new RegistrationService();
