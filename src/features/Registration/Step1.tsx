@@ -13,6 +13,7 @@ import {
   Row,
   Select,
   Switch,
+  Tooltip,
   Typography,
 } from "antd";
 import { useStore } from "@/contexts/StoreContext";
@@ -71,7 +72,11 @@ export default function Step1() {
       >
         <Form.Item
           name="name"
-          label="Nome (somente um da família)"
+          label={
+            <Typography.Text style={{ fontSize: 20 }}>
+              Nome <Typography.Text>(somente um da família)</Typography.Text>
+            </Typography.Text>
+          }
           required
           rules={[{ required: true, message: "Preecha o campo" }]}
         >
@@ -164,14 +169,19 @@ export default function Step1() {
                       },
                     ]}
                   >
-                    <Select
-                      mode="multiple"
-                      size="large"
-                      options={range(0, 18).map((age) => ({
-                        label: age,
-                        value: age,
-                      }))}
-                    />
+                    <Tooltip
+                      title="Selecione mais de uma idade para mais de uma criança com idades diferentes"
+                      open={(getFieldValue("qtyChildren") || 0) > 1}
+                    >
+                      <Select
+                        mode="multiple"
+                        size="large"
+                        options={range(0, 18).map((age) => ({
+                          label: age,
+                          value: age,
+                        }))}
+                      />
+                    </Tooltip>
                   </Form.Item>
                 ) : null
               }
