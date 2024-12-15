@@ -1,0 +1,61 @@
+{
+  "name": "juntapanelas",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.122",
+    "@types/react": "^18.3.16",
+    "@types/react-dom": "^18.3.5",
+    "airtable": "^0.12.2",
+    "antd": "^5.22.4",
+    "framer-motion": "^11.14.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-lottie": "^1.2.10",
+    "react-phone-input-2": "^2.15.1",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.1.13",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "tabWidth": 2
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@types/react-lottie": "^1.2.10",
+    "ajv": "^8.17.1"
+  }
+}

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Unkempt:wght@400;700&display=swap');
+
+
+body {
+    background-color: #1d254a;
+    margin: 0;
+    background-image: url("./assets/background.png");
+    background-repeat: repeat;
+    background-size: 500px;
+}
+
+h2, h3, h4 {
+    margin-top: 0.5em;
+}
+
+* {
+    font-family: "Unkempt", cursive !important;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.ant-card {
+    overflow: hidden;
+}
+
+.ant-form-item-has-error .react-tel-input input {
+    border-color: #ff4d4f;
+}
