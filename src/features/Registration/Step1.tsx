@@ -198,8 +198,15 @@ export default function Step1() {
               span: 8,
             }}
           >
-            <Form.Item label="Vou precisar de carona" name="needRide">
-              <Switch />
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, nextValues) => get(prevValues, "giveRide") !== get(nextValues, "giveRide")}
+            >
+              {({ getFieldValue }) => (
+                <Form.Item label="Vou precisar de carona" name="needRide">
+                  <Switch disabled={getFieldValue("giveRide")} />
+                </Form.Item>
+              )}
             </Form.Item>
           </Col>
           <Col
@@ -231,6 +238,56 @@ export default function Step1() {
                   </Form.Item>
                 ) : null;
               }}
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            xs={{
+              span: 24,
+            }}
+            xl={{
+              span: 8,
+            }}
+          >
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, nextValues) => get(prevValues, "needRide") !== get(nextValues, "needRide")}
+            >
+              {({ getFieldValue }) => (
+                <Form.Item label="Posso dar carona" name="giveRide">
+                  <Switch disabled={getFieldValue("needRide")} />
+                </Form.Item>
+              )}
+            </Form.Item>
+          </Col>
+          <Col
+            xs={{
+              span: 24,
+            }}
+            xl={{
+              span: 8,
+            }}
+          >
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, nextValues) =>
+                get(prevValues, "giveRide") !== get(nextValues, "giveRide") ||
+                get(prevValues, "needRide") !== get(nextValues, "needRide")
+              }
+            >
+              {({ getFieldValue }) =>
+                getFieldValue("giveRide") ? (
+                  <Form.Item
+                    name="qtyGiveRide"
+                    required
+                    rules={[{ required: true, message: "Preecha o campo" }]}
+                    label="Quantas vagas?"
+                  >
+                    <InputNumber min={0} max={10} size="large" />
+                  </Form.Item>
+                ) : null
+              }
             </Form.Item>
           </Col>
         </Row>

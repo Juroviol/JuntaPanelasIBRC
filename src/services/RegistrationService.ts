@@ -18,6 +18,7 @@ class RegistrationService {
       "E-mail": registration.email,
       Telefone: registration.phone,
       Carona: registration.qtyRide,
+      Vagas: registration.qtyGiveRide,
       Adultos: registration.qtyAdults,
       Crianças: registration.qtyChildren,
       Idades: (registration.childrenAges || []).map((age) => age.toString()),
@@ -98,6 +99,7 @@ class RegistrationService {
       qtyAdults: registrationResult.fields["Adultos"] as number,
       qtyChildren: registrationResult.fields["Crianças"] as number,
       qtyRide: registrationResult.fields["Carona"] as number,
+      qtyGiveRide: registrationResult.fields["Vagas"] as number,
       childrenAges: registrationResult.fields["Idades"] as string[],
       products: registrationProductsResult.map((rp) => {
         const product = products.find((p) => p.fields["Descrição"] === (rp.fields["Produto"] as string))!;
@@ -144,6 +146,7 @@ class RegistrationService {
         qtyAdults: registrationResult.fields["Adultos"] as number,
         qtyChildren: registrationResult.fields["Crianças"] as number,
         qtyRide: registrationResult.fields["Carona"] as number,
+        qtyGiveRide: registrationResult.fields["Vagas"] as number,
         childrenAges: registrationResult.fields["Idades"] as string[],
         products: registrationProductsResult.map((rp) => {
           const product = products.find((p) => p.fields["Descrição"] === (rp.fields["Produto"] as string))!;

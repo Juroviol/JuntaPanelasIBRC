@@ -8,6 +8,7 @@ export default interface Registration {
   qtyAdults: number;
   qtyChildren: number;
   qtyRide: number;
+  qtyGiveRide: number;
   childrenAges: string[];
   products?: { qty: number; product: Product }[];
 }
