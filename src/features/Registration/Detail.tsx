@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Button, Divider, Flex, List, message, Popconfirm, Typography } from "antd";
+import { Button, Descriptions, Divider, Flex, List, message, Popconfirm, Typography } from "antd";
 import RegistrationService from "@/services/RegistrationService";
 import Registration from "@/models/RegistrationModel";
 import { useStore } from "@/contexts/StoreContext";
@@ -41,7 +41,23 @@ function Detail({ registration }: { registration: Registration }) {
         </>
       )}
       <Divider style={{ borderColor: "#efa31c" }}>Data e Local</Divider>
-      <Typography.Text>22/12/2024, depois do culto</Typography.Text>
+      <Descriptions
+        bordered
+        items={[
+          {
+            key: "data",
+            label: "Data",
+            children: <Typography.Text>22/12/2024, depois do culto</Typography.Text>,
+          },
+          {
+            key: "local",
+            label: "Local",
+            children: (
+              <Typography.Text>Rua Sargento Lafayette, 2026 - Bacacheri, Curitiba - PR, 82515-090</Typography.Text>
+            ),
+          },
+        ]}
+      />
       <Divider />
       <Flex justify="center">
         <Popconfirm

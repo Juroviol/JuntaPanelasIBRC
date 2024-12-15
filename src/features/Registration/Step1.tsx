@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Button, Divider, Flex, Form, Input, Modal, Typography, message } from "antd";
+import { Button, Divider, Flex, Form, Input, Modal, Typography, message, Switch } from "antd";
 import { useStore } from "@/contexts/StoreContext";
 import Registration from "@/models/RegistrationModel";
 import PhoneInput from "@/components/PhoneInput";
@@ -70,9 +70,14 @@ export default function Step1() {
         >
           <PhoneInput />
         </Form.Item>
-        <Form.Item name="email" label="E-mail" rules={[{ type: "email", message: "E-mail inválido" }]}>
-          <Input size="large" />
-        </Form.Item>
+        <Flex justify="center" style={{ paddingTop: 10 }}>
+          <Form.Item label="Me voluntariar para ajudar" name="volunteer">
+            <Switch />
+          </Form.Item>
+          <Form.Item label="Vou precisar de carona" name="needRide">
+            <Switch />
+          </Form.Item>
+        </Flex>
         <Divider />
         <Flex justify="center" vertical gap={10} align="center">
           <Button htmlType="submit" variant="solid" color="primary" size="large">
