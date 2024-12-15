@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, ConfigProvider, Flex, Row } from "antd";
+import { ConfigProvider, Flex } from "antd";
 import "./App.css";
 import CabecalhoImg from "@/assets/cabecalho.png";
 import StoreProvider from "@/contexts/StoreContext";

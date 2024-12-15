@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ProductsService from "@/services/ProductsService";
 import Product from "@/models/ProductModel";
-import { Button, Card, Col, ConfigProvider, Divider, Flex, List, Row, Skeleton, Spin, Typography } from "antd";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Typography } from "antd";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useStore } from "@/contexts/StoreContext";
 import RegistrationService from "@/services/RegistrationService";
 

@@ -35,7 +35,6 @@ export default function Step3() {
           Presença confirmada!
         </Typography.Title>
       </Flex>
-      <Divider style={{ borderColor: "#efa31c" }}>O que você irá levar</Divider>
       <Detail registration={registration!} />
     </Flex>
   );

@@ -57,17 +57,19 @@ class RegistrationService {
       })
       .firstPage();
     await Promise.all(registrationProductsResult.map((rp) => this.registrationsProductsTable.destroy([rp.id])));
-    await this.productsTable.update(
-      registrationProductsResult.map((rp) => {
-        const product = products.find((p) => p.fields["Descrição"] === rp.fields["Produto"])!;
-        return {
-          id: product.id,
-          fields: {
-            Quantidade: (product.fields["Quantidade"] as number) + (rp.fields["Quantidade"] as number),
-          },
-        };
-      })
-    );
+    if (registrationProductsResult.length) {
+      await this.productsTable.update(
+        registrationProductsResult.map((rp) => {
+          const product = products.find((p) => p.fields["Descrição"] === rp.fields["Produto"])!;
+          return {
+            id: product.id,
+            fields: {
+              Quantidade: (product.fields["Quantidade"] as number) + (rp.fields["Quantidade"] as number),
+            },
+          };
+        })
+      );
+    }
     await this.registrationsTable.destroy([registrationId]);
   }
 
@@ -106,4 +108,6 @@ class RegistrationService {
   }
 }
 
-export default new RegistrationService();
+const registrationService = new RegistrationService();
+
+export default registrationService;
