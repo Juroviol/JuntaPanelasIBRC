@@ -153,25 +153,26 @@ export default function Step1() {
             >
               {({ getFieldValue }) =>
                 (getFieldValue("qtyChildren") || 0) > 0 ? (
-                  <Form.Item
-                    name="childrenAges"
-                    label={(getFieldValue("qtyChildren") || 0) > 1 ? "Idade das crianças" : "Idade da criança"}
-                    required
-                    rules={[
-                      {
-                        type: "array",
-                        validator: (_, value) => {
-                          if (!value || !value.length) {
-                            return Promise.reject(new Error("Preencha o campo"));
-                          }
-                          return Promise.resolve();
-                        },
-                      },
-                    ]}
+                  <Tooltip
+                    title="Selecione mais de uma idade para mais de uma criança com idades diferentes"
+                    open={(getFieldValue("qtyChildren") || 0) > 1}
                   >
-                    <Tooltip
-                      title="Selecione mais de uma idade para mais de uma criança com idades diferentes"
-                      open={(getFieldValue("qtyChildren") || 0) > 1}
+                    <Form.Item
+                      name="childrenAges"
+                      label={(getFieldValue("qtyChildren") || 0) > 1 ? "Idade das crianças" : "Idade da criança"}
+                      required
+                      rules={[
+                        {
+                          type: "array",
+                          required: true,
+                          validator: (_, value) => {
+                            if (!value || !value.length) {
+                              return Promise.reject(new Error("Preencha o campo"));
+                            }
+                            return Promise.resolve();
+                          },
+                        },
+                      ]}
                     >
                       <Select
                         mode="multiple"
@@ -181,8 +182,8 @@ export default function Step1() {
                           value: age,
                         }))}
                       />
-                    </Tooltip>
-                  </Form.Item>
+                    </Form.Item>
+                  </Tooltip>
                 ) : null
               }
             </Form.Item>
