@@ -56,7 +56,7 @@ export default function Index() {
         }}
       >
         <Col {...breakpoints}>
-          <Card loading={isLoading} style={{ marginBottom: 25 }}>
+          <Card loading={isLoading}>
             <motion.div
               initial={{
                 scaleX: 0,

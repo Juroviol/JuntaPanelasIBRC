@@ -106,7 +106,7 @@ export default function Step2() {
                 <Card>
                   <Flex vertical align="center" gap={10}>
                     <Tooltip title={product.observation} open={!!product.observation}>
-                      <img src={product.image} height={100} />
+                      <img src={product.image} height={100} alt={product.name} />
                     </Tooltip>
                     <Typography.Text>{product.name}</Typography.Text>
                     <Flex gap={10} align="center">

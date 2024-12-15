@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Unkempt:wght@400;700&display=swap');
 
 
-html, body, div#root {
-    height: 100%;
+@media (min-width: 1280px) {
+    html, body, div#root {
+        height: 100%;
+    }
 }
 
 div#root {

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Button, Divider, Flex, Form, Input, Modal, Typography, message, Switch } from "antd";
+import { Button, Divider, Flex, Form, Input, message, Modal, Switch, Typography } from "antd";
 import { useStore } from "@/contexts/StoreContext";
 import Registration from "@/models/RegistrationModel";
 import PhoneInput from "@/components/PhoneInput";
@@ -32,7 +32,7 @@ export default function Step1() {
         }
       });
     },
-    [setStep]
+    [setStep, setRegistration]
   );
 
   return (
