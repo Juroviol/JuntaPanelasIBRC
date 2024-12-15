@@ -66,7 +66,7 @@ export default function Step1() {
         onFinish={handleOnFinish}
         validateTrigger="onSubmit"
         initialValues={{
-          qtyAdults: 0,
+          qtyAdults: 1,
           qtyChildren: 0,
         }}
       >
@@ -117,7 +117,7 @@ export default function Step1() {
               required
               rules={[{ required: true, message: "Preecha o campo" }]}
             >
-              <InputNumber min={0} max={10} size="large" />
+              <InputNumber min={1} max={10} size="large" />
             </Form.Item>
           </Col>
           <Col
