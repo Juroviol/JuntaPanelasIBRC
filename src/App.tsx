@@ -30,8 +30,8 @@ function App() {
       }}
     >
       <StoreProvider>
-        <Flex vertical justify="center" align="center" gap={20}>
-          <img src={CabecalhoImg} width={200} style={{ marginTop: 25 }} />
+        <Flex vertical justify="center" align="center" gap={20} style={{ paddingTop: 25, paddingBottom: 25 }}>
+          <img src={CabecalhoImg} width={200} />
           <Registration />
         </Flex>
       </StoreProvider>

@@ -34,7 +34,7 @@ export default function Index() {
       return {
         xs: { span: 22, offset: 1 },
         xl: { span: 16, offset: 4 },
-        xxl: { span: 10, offset: 7 },
+        xxl: { span: 12, offset: 6 },
       };
     }
     return {

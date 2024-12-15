@@ -5,6 +5,12 @@ html, body, div#root {
     height: 100%;
 }
 
+div#root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 body {
     background-color: #1d254a;
     margin: 0;
