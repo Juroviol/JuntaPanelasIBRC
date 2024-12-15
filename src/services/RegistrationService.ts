@@ -20,7 +20,7 @@ class RegistrationService {
       Carona: registration.qtyRide,
       Adultos: registration.qtyAdults,
       Crianças: registration.qtyChildren,
-      Idades: registration.childrenAges.map((age) => age.toString()),
+      Idades: (registration.childrenAges || []).map((age) => age.toString()),
     });
     await Promise.all(
       (registration.products || []).map(async (p) =>
