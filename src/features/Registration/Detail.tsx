@@ -33,7 +33,7 @@ function Detail({ registration }: { registration: Registration }) {
                   }}
                   avatar={<img src={item.product.image} width={80} alt={item.product.name} />}
                   title={<Flex style={{ textAlign: "left" }}>{item.product.name}</Flex>}
-                  description={<Flex style={{ textAlign: "left" }}>{`Quantidade: ${item.product.qty}`}</Flex>}
+                  description={<Flex style={{ textAlign: "left" }}>{`Quantidade: ${item.qty}`}</Flex>}
                 />
               </List.Item>
             )}
