@@ -83,7 +83,10 @@ export default function Step2() {
         textAlign: "center",
       }}
     >
-      <Typography.Title level={4}>Opções para levar</Typography.Title>
+      <Typography.Title level={4}>
+        Escolha {registration?.qtyAdults} opções para levar. Faltam{" "}
+        {(registration?.qtyAdults || 0) - (registration?.products?.length || 0)}.
+      </Typography.Title>
       {loading && (
         <Flex style={{ height: 700 }} justify="center" align="center">
           <Spin />
@@ -137,16 +140,27 @@ export default function Step2() {
       />
       <Divider />
       <Flex justify="center" align="center">
-        <Button
-          htmlType="submit"
-          variant="solid"
-          color="primary"
-          size="large"
-          onClick={handleConfirm}
-          loading={isConfirming}
+        <Tooltip
+          title={
+            (registration?.products?.length || 0) < (registration?.qtyAdults || 0)
+              ? `Escolha ${
+                  (registration?.qtyAdults || 0) - (registration?.products?.length || 0)
+                } opções para confirmar presença.`
+              : ""
+          }
         >
-          Confirmar Presença
-        </Button>
+          <Button
+            htmlType="submit"
+            variant="solid"
+            color="primary"
+            size="large"
+            disabled={(registration?.products?.length || 0) < (registration?.qtyAdults || 0)}
+            onClick={handleConfirm}
+            loading={isConfirming}
+          >
+            Confirmar Presença
+          </Button>
+        </Tooltip>
       </Flex>
     </Flex>
   );
