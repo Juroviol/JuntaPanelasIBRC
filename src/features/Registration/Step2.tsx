@@ -117,58 +117,62 @@ export default function Step2() {
       )}
       {!loading && (
         <Flex vertical>
-          <List
-            grid={{ gutter: 16, xs: 1, xl: 4, xxl: 4 }}
-            dataSource={products}
-            renderItem={(product) => {
-              const qty = (registration!.products || []).find((p) => p.product.id === product.id)?.qty || 0;
-              return (
-                <List.Item key={product.id}>
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        paddingLG: 16,
-                      },
-                    }}
-                  >
-                    <Card>
-                      <Flex vertical align="center" gap={10}>
-                        <img src={product.image} height={100} alt={product.name} />
-                        <Flex vertical>
-                          <Typography.Text>{product.name}</Typography.Text>
-                          {product.observation && (
-                            <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: "12px" }}>
-                              {product.observation}
-                            </Typography.Text>
-                          )}
-                        </Flex>
-                        <Flex gap={10} align="center">
-                          <Button
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            disabled={qty >= product.qty}
-                            size="middle"
-                            shape="circle"
-                            onClick={() => handleAddProduct(product.id)}
-                          />
-                          {qty}
-                          <Button
-                            type="default"
-                            icon={<MinusOutlined />}
-                            disabled={!qty}
-                            size="middle"
-                            shape="circle"
-                            onClick={() => handleRemoveProduct(product.id)}
-                          />
-                        </Flex>
-                      </Flex>
-                    </Card>
-                  </ConfigProvider>
-                </List.Item>
-              );
-            }}
-          />
-          <Divider />
+          {!byPassMinProductsRule && (
+            <>
+              <List
+                grid={{ gutter: 16, xs: 1, xl: 4, xxl: 4 }}
+                dataSource={products}
+                renderItem={(product) => {
+                  const qty = (registration!.products || []).find((p) => p.product.id === product.id)?.qty || 0;
+                  return (
+                    <List.Item key={product.id}>
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            paddingLG: 16,
+                          },
+                        }}
+                      >
+                        <Card>
+                          <Flex vertical align="center" gap={10}>
+                            <img src={product.image} height={100} alt={product.name} />
+                            <Flex vertical>
+                              <Typography.Text>{product.name}</Typography.Text>
+                              {product.observation && (
+                                <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: "12px" }}>
+                                  {product.observation}
+                                </Typography.Text>
+                              )}
+                            </Flex>
+                            <Flex gap={10} align="center">
+                              <Button
+                                type="primary"
+                                icon={<PlusOutlined />}
+                                disabled={qty >= product.qty}
+                                size="middle"
+                                shape="circle"
+                                onClick={() => handleAddProduct(product.id)}
+                              />
+                              {qty}
+                              <Button
+                                type="default"
+                                icon={<MinusOutlined />}
+                                disabled={!qty}
+                                size="middle"
+                                shape="circle"
+                                onClick={() => handleRemoveProduct(product.id)}
+                              />
+                            </Flex>
+                          </Flex>
+                        </Card>
+                      </ConfigProvider>
+                    </List.Item>
+                  );
+                }}
+              />
+              <Divider />
+            </>
+          )}
           <Flex justify="center" align="center">
             <Tooltip
               title={
