@@ -1,28 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import useMediaQuery, { MediaQueryKey } from "use-media-antd-query";
 import ProductsService from "@/services/ProductsService";
 import Product from "@/models/ProductModel";
-import {
-  Button,
-  Card,
-  Col,
-  ConfigProvider,
-  Divider,
-  Flex,
-  Form,
-  List,
-  Row,
-  Spin,
-  Switch,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Switch, Tooltip, Typography } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useStore } from "@/contexts/StoreContext";
 import RegistrationService from "@/services/RegistrationService";
+import { max } from "lodash";
 
 export default function Step2() {
-  const colSize = useMediaQuery();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
@@ -98,6 +83,11 @@ export default function Step2() {
     [byPassMinProductsRule, registration]
   );
 
+  const qtyProductsToChoose = useMemo(
+    () => max([0, (registration?.qtyAdults || 0) - (registration?.products?.length || 0)]),
+    [registration]
+  );
+
   return (
     <Flex
       vertical
@@ -111,8 +101,7 @@ export default function Step2() {
           <Typography.Title level={4}>Opções para levar</Typography.Title>
         ) : (
           <Typography.Title level={4}>
-            Escolha {registration?.qtyAdults} opções para levar. Faltam{" "}
-            {(registration?.qtyAdults || 0) - (registration?.products?.length || 0)}.
+            Escolha {registration?.qtyAdults} opções para levar. Faltam {qtyProductsToChoose}.
           </Typography.Title>
         )}
 
@@ -144,10 +133,15 @@ export default function Step2() {
                   >
                     <Card>
                       <Flex vertical align="center" gap={10}>
-                        <Tooltip title={product.observation} open={!!product.observation}>
-                          <img src={product.image} height={100} alt={product.name} />
-                        </Tooltip>
-                        <Typography.Text>{product.name}</Typography.Text>
+                        <img src={product.image} height={100} alt={product.name} />
+                        <Flex vertical>
+                          <Typography.Text>{product.name}</Typography.Text>
+                          {product.observation && (
+                            <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: "12px" }}>
+                              {product.observation}
+                            </Typography.Text>
+                          )}
+                        </Flex>
                         <Flex gap={10} align="center">
                           <Button
                             type="primary"
