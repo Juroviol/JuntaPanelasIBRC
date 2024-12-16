@@ -101,7 +101,7 @@ export default function Step2() {
           <Typography.Title level={4}>Opções para levar</Typography.Title>
         ) : (
           <Typography.Title level={4}>
-            Escolha {registration?.qtyAdults} opções para levar. Faltam {qtyProductsToChoose}.
+            Escolha no mínimo {registration?.qtyAdults} opções para levar. Faltam {qtyProductsToChoose}.
           </Typography.Title>
         )}
 
