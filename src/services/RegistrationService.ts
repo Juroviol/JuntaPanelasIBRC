@@ -15,7 +15,6 @@ class RegistrationService {
   async insert(registration: Registration): Promise<Registration> {
     const result = await this.registrationsTable.create({
       Nome: registration.name,
-      "E-mail": registration.email,
       Telefone: registration.phone,
       Carona: registration.qtyRide,
       Vagas: registration.qtyGiveRide,
@@ -94,7 +93,6 @@ class RegistrationService {
     return {
       id: registrationId,
       name: registrationResult.fields["Nome"] as string,
-      email: registrationResult.fields["E-mail"] as string,
       phone: registrationResult.fields["Phone"] as string,
       qtyAdults: registrationResult.fields["Adultos"] as number,
       qtyChildren: registrationResult.fields["Crianças"] as number,
@@ -141,7 +139,6 @@ class RegistrationService {
       return {
         id: registrationResult.id,
         name: registrationResult.fields["Nome"] as string,
-        email: registrationResult.fields["E-mail"] as string,
         phone: registrationResult.fields["Phone"] as string,
         qtyAdults: registrationResult.fields["Adultos"] as number,
         qtyChildren: registrationResult.fields["Crianças"] as number,
