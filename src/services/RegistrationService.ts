@@ -46,91 +46,92 @@ class RegistrationService {
   }
 
   async updateProducts(registration: Registration): Promise<Registration> {
-    const currentRegistration = await this.findById(registration.id);
+    try {
+      const currentRegistration = await this.findById(registration.id);
 
-    const previousProducts = currentRegistration.products?.map(({ product }) => product.name) || [];
-    const currentProducts = registration.products?.map(({ product }) => product.name) || [];
-    const newProducts = difference(currentProducts, previousProducts).map(
-      (name) => registration.products?.find(({ product }) => product.name === name)!
-    );
-    const removedProducts = difference(previousProducts, currentProducts).map(
-      (name) => currentRegistration.products?.find(({ product }) => product.name === name)!
-    );
-    const updatedProducts = intersection(currentProducts, previousProducts).map(
-      (name) => registration.products?.find(({ product }) => product.name === name)!
-    );
-
-    if (newProducts.length) {
-      await Promise.all(
-        newProducts.map((newProduct) => {
-          return this.registrationsProductsTable.create({
-            Registro: registration.name,
-            Produto: newProduct.product.name,
-            Quantidade: newProduct.qty,
-          });
-        })
+      const previousProducts = currentRegistration.products?.map(({ product }) => product.name) || [];
+      const currentProducts = registration.products?.map(({ product }) => product.name) || [];
+      const newProducts = difference(currentProducts, previousProducts).map(
+        (name) => registration.products?.find(({ product }) => product.name === name)!
       );
-      await this.productsTable.update(
-        newProducts.map((newProduct) => {
-          return {
+      const removedProducts = difference(previousProducts, currentProducts).map(
+        (name) => currentRegistration.products?.find(({ product }) => product.name === name)!
+      );
+      const updatedProducts = intersection(currentProducts, previousProducts).map(
+        (name) => registration.products?.find(({ product }) => product.name === name)!
+      );
+
+      if (newProducts.length) {
+        await Promise.all(
+          newProducts.map((newProduct) =>
+            this.registrationsProductsTable.create({
+              Registro: registration.name,
+              Produto: newProduct.product.name,
+              Quantidade: newProduct.qty,
+            })
+          )
+        );
+        await this.productsTable.update(
+          newProducts.map((newProduct) => ({
             id: newProduct.product.id,
             fields: {
               Quantidade: newProduct.product.qty - newProduct.qty,
             },
-          };
-        })
-      );
-    }
+          }))
+        );
+      }
 
-    if (removedProducts.length) {
-      await this.registrationsProductsTable.destroy(removedProducts.map((removedProduct) => removedProduct.id!));
-      await this.productsTable.update(
-        removedProducts.map((removedProduct) => {
-          return {
+      if (removedProducts.length) {
+        await this.registrationsProductsTable.destroy(removedProducts.map((removedProduct) => removedProduct.id!));
+        await this.productsTable.update(
+          removedProducts.map((removedProduct) => ({
             id: removedProduct.product.id,
             fields: {
               Quantidade: removedProduct.product.qty + removedProduct.qty,
             },
-          };
-        })
-      );
-    }
+          }))
+        );
+      }
 
-    if (updatedProducts.length) {
-      await this.registrationsProductsTable.update(
-        updatedProducts.map((updated) => ({
-          id: updated.id!,
-          fields: {
-            Quantidade: updated.qty,
-          },
-        }))
-      );
-      await this.productsTable.update(
-        updatedProducts
-          .filter((updatedProduct) => {
-            const currentProduct = currentRegistration.products?.find(
-              (product) => product.product.id! === updatedProduct.product.id!
-            )!;
-            return updatedProduct.qty !== currentProduct.qty;
-          })
-          .map((updatedProduct) => {
-            const currentProduct = currentRegistration.products?.find(
-              (product) => product.product.id! === updatedProduct.product.id!
-            )!;
-            return {
-              id: updatedProduct.product.id,
-              fields: {
-                Quantidade:
-                  updatedProduct.qty > currentProduct.qty
-                    ? updatedProduct.product.qty - (updatedProduct.qty - currentProduct.qty)
-                    : updatedProduct.product.qty + (currentProduct.qty - updatedProduct.qty),
-              },
-            };
-          })
-      );
-    }
+      if (updatedProducts.length) {
+        await this.registrationsProductsTable.update(
+          updatedProducts.map((updated) => ({
+            id: updated.id!,
+            fields: {
+              Quantidade: updated.qty,
+            },
+          }))
+        );
+        await this.productsTable.update(
+          updatedProducts
+            .filter((updatedProduct) => {
+              const currentProduct = currentRegistration.products?.find(
+                (product) => product.product.id! === updatedProduct.product.id!
+              )!;
+              return updatedProduct.qty !== currentProduct.qty;
+            })
+            .map((updatedProduct) => {
+              const currentProduct = currentRegistration.products?.find(
+                (product) => product.product.id! === updatedProduct.product.id!
+              )!;
+              return {
+                id: updatedProduct.product.id,
+                fields: {
+                  Quantidade:
+                    updatedProduct.qty > currentProduct.qty
+                      ? updatedProduct.product.qty - (updatedProduct.qty - currentProduct.qty)
+                      : updatedProduct.product.qty + (currentProduct.qty - updatedProduct.qty),
+                },
+              };
+            })
+        );
+      }
 
-    return this.findById(registration.id);
+      return this.findById(registration.id);
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   }
 
   async cancel(registrationId: string): Promise<void> {
