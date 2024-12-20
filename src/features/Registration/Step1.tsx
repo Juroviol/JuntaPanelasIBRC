@@ -43,6 +43,7 @@ export default function Step1() {
           setRegistration(registration);
           setIsModalOpen(false);
           setStep(3);
+          localStorage.setItem("registrationId", registration.id);
         } else {
           message.info("Não foi encontrato nenhum registro para o telefone informado.");
         }
