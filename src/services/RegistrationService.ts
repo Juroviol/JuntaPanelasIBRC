@@ -1,7 +1,7 @@
 import { Attachment, FieldSet, Table } from "airtable";
 import Base from "@/core/Base";
 import Registration from "@/models/RegistrationModel";
-import { difference, intersection, partition } from "lodash";
+import { difference, intersection } from "lodash";
 
 class RegistrationService {
   private registrationsTable: Table<FieldSet>;

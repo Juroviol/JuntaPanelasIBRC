@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
-import { Button, Col, Descriptions, Divider, Flex, List, message, Popconfirm, Row, Typography } from "antd";
+import { Button, Descriptions, Divider, Flex, List, message, Popconfirm, Typography } from "antd";
 import RegistrationService from "@/services/RegistrationService";
 import Registration from "@/models/RegistrationModel";
 import { useStore } from "@/contexts/StoreContext";
-import useMediaQuery, { MediaQueryEnum } from "use-media-antd-query";
+import useMediaQuery from "use-media-antd-query";
 
 function Detail({ registration }: { registration: Registration }) {
   const { setStep } = useStore();
