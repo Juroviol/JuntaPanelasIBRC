@@ -6,6 +6,7 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useStore } from "@/contexts/StoreContext";
 import RegistrationService from "@/services/RegistrationService";
 import { max } from "lodash";
+import Registration from "@/models/RegistrationModel";
 
 export default function Step2() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -70,7 +71,13 @@ export default function Step2() {
 
   const handleConfirm = useCallback(() => {
     setIsConfirming(true);
-    RegistrationService.insert(registration!).then((result) => {
+    let promise: Promise<Registration>;
+    if (registration?.id) {
+      promise = RegistrationService.updateProducts(registration);
+    } else {
+      promise = RegistrationService.insert(registration!);
+    }
+    promise.then((result) => {
       setIsConfirming(false);
       setStep(3);
       setRegistration(result);
@@ -85,6 +92,19 @@ export default function Step2() {
 
   const qtyProductsToChoose = useMemo(
     () => max([0, (registration?.qtyAdults || 0) - (registration?.products?.length || 0)]),
+    [registration]
+  );
+
+  const handleICantTakeIt = useCallback(
+    (value: boolean) => {
+      setByPassMinProductsRule(value);
+      if (value) {
+        setRegistration({
+          ...registration!,
+          products: [],
+        });
+      }
+    },
     [registration]
   );
 
@@ -107,7 +127,7 @@ export default function Step2() {
 
         <Flex gap={10}>
           <Typography.Text>Não consigo levar, mas quero participar</Typography.Text>
-          <Switch value={byPassMinProductsRule} onChange={(value) => setByPassMinProductsRule(value)} />
+          <Switch value={byPassMinProductsRule} onChange={handleICantTakeIt} />
         </Flex>
       </Flex>
       {loading && (
@@ -192,7 +212,7 @@ export default function Step2() {
                 onClick={handleConfirm}
                 loading={isConfirming}
               >
-                Confirmar Presença
+                {registration?.id ? "Atualizar o que vou levar" : "Confirmar Presença"}
               </Button>
             </Tooltip>
           </Flex>

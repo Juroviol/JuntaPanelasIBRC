@@ -9,5 +9,5 @@ export default interface Registration {
   qtyRide: number;
   qtyGiveRide: number;
   childrenAges: string[];
-  products?: { qty: number; product: Product }[];
+  products?: { id?: string; qty: number; product: Product }[];
 }

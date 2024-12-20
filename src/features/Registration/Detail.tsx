@@ -1,11 +1,17 @@
 import React, { useCallback } from "react";
-import { Button, Descriptions, Divider, Flex, List, message, Popconfirm, Typography } from "antd";
+import { Button, Col, Descriptions, Divider, Flex, List, message, Popconfirm, Row, Typography } from "antd";
 import RegistrationService from "@/services/RegistrationService";
 import Registration from "@/models/RegistrationModel";
 import { useStore } from "@/contexts/StoreContext";
+import useMediaQuery, { MediaQueryEnum } from "use-media-antd-query";
 
 function Detail({ registration }: { registration: Registration }) {
   const { setStep } = useStore();
+  const colSize = useMediaQuery();
+
+  const handleUpdateProducts = useCallback(() => {
+    setStep(2);
+  }, []);
 
   const handleCancel = useCallback(() => {
     return new Promise((resolve) => {
@@ -59,7 +65,8 @@ function Detail({ registration }: { registration: Registration }) {
         ]}
       />
       <Divider />
-      <Flex justify="center">
+      <Flex justify="center" gap={10} vertical={colSize === "xs"}>
+        <Button onClick={handleUpdateProducts}>Alterar o que vou levar</Button>
         <Popconfirm
           icon={null}
           title=""
