@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProductsService from "@/services/ProductsService";
 import Product from "@/models/ProductModel";
 import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Switch, Tooltip, Typography } from "antd";
@@ -14,6 +14,7 @@ export default function Step2() {
   const [isConfirming, setIsConfirming] = useState(false);
   const { setRegistration, registration, setStep } = useStore();
   const [byPassMinProductsRule, setByPassMinProductsRule] = useState(false);
+  const existentRegistrationRef = useRef<Registration>();
 
   useEffect(() => {
     setLoading(true);
@@ -21,6 +22,7 @@ export default function Step2() {
       setProducts(products);
       setLoading(false);
     });
+    existentRegistrationRef.current = JSON.parse(JSON.stringify(registration)) as Registration;
   }, []);
 
   const handleAddProduct = useCallback(
@@ -143,6 +145,9 @@ export default function Step2() {
                 grid={{ gutter: 16, xs: 1, xl: 4, xxl: 4 }}
                 dataSource={products}
                 renderItem={(product) => {
+                  const registrationProduct = (existentRegistrationRef.current?.products || []).find(
+                    (p) => p.product.id === product.id
+                  );
                   const qty = (registration!.products || []).find((p) => p.product.id === product.id)?.qty || 0;
                   return (
                     <List.Item key={product.id}>
@@ -168,7 +173,11 @@ export default function Step2() {
                               <Button
                                 type="primary"
                                 icon={<PlusOutlined />}
-                                disabled={qty >= product.qty}
+                                disabled={
+                                  registrationProduct
+                                    ? qty >= registrationProduct.qty + product.qty
+                                    : qty >= product.qty
+                                }
                                 size="middle"
                                 shape="circle"
                                 onClick={() => handleAddProduct(product.id)}
