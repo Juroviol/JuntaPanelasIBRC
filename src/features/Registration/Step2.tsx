@@ -5,7 +5,7 @@ import { Button, Card, ConfigProvider, Divider, Flex, List, Spin, Switch, Toolti
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useStore } from "@/contexts/StoreContext";
 import RegistrationService from "@/services/RegistrationService";
-import { max } from "lodash";
+import { differenceBy, max, orderBy } from "lodash";
 import Registration from "@/models/RegistrationModel";
 
 export default function Step2() {
@@ -24,6 +24,17 @@ export default function Step2() {
     });
     existentRegistrationRef.current = JSON.parse(JSON.stringify(registration)) as Registration;
   }, []);
+
+  useEffect(() => {
+    if (registration && registration.products && products.length) {
+      const difference = differenceBy(
+        registration.products.map((rp) => rp.product),
+        products,
+        "id"
+      );
+      if (difference.length) setProducts(orderBy([...products, ...difference], "qty", "desc"));
+    }
+  }, [products, registration]);
 
   const handleAddProduct = useCallback(
     (productId: string) => {
