@@ -14,11 +14,16 @@ export default function Index() {
   useEffect(() => {
     if (localStorage.getItem("registrationId")) {
       setIsLoading(true);
-      RegistrationService.findById(localStorage.getItem("registrationId") as string).then((registration) => {
-        setRegistration(registration);
-        setStep(3);
-        setIsLoading(false);
-      });
+      RegistrationService.findById(localStorage.getItem("registrationId") as string)
+        .then((registration) => {
+          setRegistration(registration);
+          setStep(3);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          localStorage.clear();
+          setIsLoading(false);
+        });
     }
   }, [setRegistration, setStep]);
 

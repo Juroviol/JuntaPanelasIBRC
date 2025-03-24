@@ -112,14 +112,16 @@ export default function Step1() {
               span: 24,
             }}
           >
-            <Form.Item
-              name="qtyAdults"
-              label="Quantos adultos?"
-              required
-              rules={[{ required: true, message: "Preecha o campo" }]}
-            >
-              <InputNumber min={1} max={10} size="large" />
-            </Form.Item>
+            <Tooltip title="Adolescentes com 12 anos ou mais incluir como adulto" trigger="focus" placement="topLeft">
+              <Form.Item
+                name="qtyAdults"
+                label="Quantos adultos?"
+                required
+                rules={[{ required: true, message: "Preecha o campo" }]}
+              >
+                <InputNumber min={1} max={10} size="large" />
+              </Form.Item>
+            </Tooltip>
           </Col>
           <Col
             xl={{
@@ -156,6 +158,7 @@ export default function Step1() {
                 (getFieldValue("qtyChildren") || 0) > 0 ? (
                   <Tooltip
                     title="Selecione mais de uma idade para mais de uma criança com idades diferentes"
+                    placement="topLeft"
                     open={(getFieldValue("qtyChildren") || 0) > 1}
                   >
                     <Form.Item
@@ -178,7 +181,7 @@ export default function Step1() {
                       <Select
                         mode="multiple"
                         size="large"
-                        options={range(0, 18).map((age) => ({
+                        options={range(0, 12).map((age) => ({
                           label: age,
                           value: age,
                         }))}

@@ -38,8 +38,19 @@ function Detail({ registration }: { registration: Registration }) {
                     alignItems: "center",
                   }}
                   avatar={<img src={item.product.image} width={80} alt={item.product.name} />}
-                  title={<Flex style={{ textAlign: "left" }}>{item.product.name}</Flex>}
-                  description={<Flex style={{ textAlign: "left" }}>{`Quantidade: ${item.qty}`}</Flex>}
+                  title={
+                    <Flex style={{ textAlign: "left" }}>
+                      <Typography.Text style={{ fontSize: 18 }}>{item.product.name}</Typography.Text>
+                    </Flex>
+                  }
+                  description={
+                    <Flex vertical style={{ textAlign: "left" }}>
+                      <Typography.Text> {`Quantidade: ${item.qty}`}</Typography.Text>
+                      {!!item.product.observation && (
+                        <Typography.Text type="secondary">{item.product.observation}</Typography.Text>
+                      )}
+                    </Flex>
+                  }
                 />
               </List.Item>
             )}
@@ -53,7 +64,7 @@ function Detail({ registration }: { registration: Registration }) {
           {
             key: "data",
             label: "Data",
-            children: <Typography.Text>22/12/2024, depois do culto</Typography.Text>,
+            children: <Typography.Text>06/12/2024, depois do culto</Typography.Text>,
           },
           {
             key: "local",
