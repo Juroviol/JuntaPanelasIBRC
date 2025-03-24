@@ -99,12 +99,15 @@ export default function Step2() {
   }, [registration, setStep, setRegistration]);
 
   const disableConfirm = useMemo(
-    () => !byPassMinProductsRule && (registration?.products?.length || 0) < (registration?.qtyAdults || 0),
+    () =>
+      !byPassMinProductsRule &&
+      (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0) < (registration?.qtyAdults || 0),
     [byPassMinProductsRule, registration]
   );
 
   const qtyProductsToChoose = useMemo(
-    () => max([0, (registration?.qtyAdults || 0) - (registration?.products?.length || 0)]),
+    () =>
+      max([0, (registration?.qtyAdults || 0) - (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0)]),
     [registration]
   );
 
