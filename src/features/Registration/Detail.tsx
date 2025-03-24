@@ -70,7 +70,9 @@ function Detail({ registration }: { registration: Registration }) {
             key: "local",
             label: "Local",
             children: (
-              <Typography.Text>Rua Sargento Lafayette, 2026 - Bacacheri, Curitiba - PR, 82515-090</Typography.Text>
+              <Typography.Link target="_blank" href="https://maps.app.goo.gl/Xcf6YX7vGSnDCzv5A">
+                Rua Sargento Lafayette, 2026 - Bacacheri, Curitiba - PR, 82515-090
+              </Typography.Link>
             ),
           },
         ]}
