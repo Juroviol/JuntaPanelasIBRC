@@ -47,7 +47,7 @@ function Detail({ registration }: { registration: Registration }) {
                     <Flex vertical style={{ textAlign: "left" }}>
                       <Typography.Text> {`Quantidade: ${item.qty}`}</Typography.Text>
                       {!!item.product.observation && (
-                        <Typography.Text type="secondary">{item.product.observation}</Typography.Text>
+                        <span dangerouslySetInnerHTML={{ __html: item.product.observation }} />
                       )}
                     </Flex>
                   }

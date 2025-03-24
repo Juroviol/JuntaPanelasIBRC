@@ -164,9 +164,10 @@ export default function Step2() {
                             <Flex vertical>
                               <Typography.Text>{product.name}</Typography.Text>
                               {product.observation && (
-                                <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: "12px" }}>
-                                  {product.observation}
-                                </Typography.Text>
+                                <span
+                                  style={{ fontSize: 12, color: "rgba(0, 0, 0, 0.45)" }}
+                                  dangerouslySetInnerHTML={{ __html: product.observation }}
+                                />
                               )}
                             </Flex>
                             <Flex gap={10} align="center">
