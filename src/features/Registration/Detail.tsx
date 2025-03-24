@@ -69,11 +69,7 @@ function Detail({ registration }: { registration: Registration }) {
           {
             key: "local",
             label: "Local",
-            children: (
-              <Typography.Link target="_blank" href="https://maps.app.goo.gl/Xcf6YX7vGSnDCzv5A">
-                Rua Sargento Lafayette, 2026 - Bacacheri, Curitiba - PR, 82515-090
-              </Typography.Link>
-            ),
+            children: <Typography.Text>Será divulgado no grupo do whatsapp da Igreja.</Typography.Text>,
           },
         ]}
       />
