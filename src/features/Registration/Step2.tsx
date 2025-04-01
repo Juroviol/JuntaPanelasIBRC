@@ -99,9 +99,7 @@ export default function Step2() {
   }, [registration, setStep, setRegistration]);
 
   const disableConfirm = useMemo(
-    () =>
-      !byPassMinProductsRule &&
-      (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0) < (registration?.qtyAdults || 0),
+    () => !byPassMinProductsRule && (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0) < 1,
     [byPassMinProductsRule, registration]
   );
 
@@ -136,9 +134,7 @@ export default function Step2() {
         {byPassMinProductsRule ? (
           <Typography.Title level={4}>Opções para levar</Typography.Title>
         ) : (
-          <Typography.Title level={4}>
-            Escolha no mínimo {registration?.qtyAdults} opções para levar. Faltam {qtyProductsToChoose}.
-          </Typography.Title>
+          <Typography.Title level={4}>Escolha no mínimo 1 opção para levar.</Typography.Title>
         )}
 
         <Flex gap={10}>
