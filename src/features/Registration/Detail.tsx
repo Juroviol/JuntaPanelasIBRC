@@ -69,7 +69,11 @@ function Detail({ registration }: { registration: Registration }) {
           {
             key: "local",
             label: "Local",
-            children: <Typography.Text>Será divulgado no grupo do whatsapp da Igreja.</Typography.Text>,
+            children: (
+              <Typography.Text>
+                Será no Bacacheri, em Curitiba. O endereço será divulgado no grupo do whatsapp da Igreja.
+              </Typography.Text>
+            ),
           },
         ]}
       />
