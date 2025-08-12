@@ -64,7 +64,7 @@ function Detail({ registration }: { registration: Registration }) {
           {
             key: "data",
             label: "Data",
-            children: <Typography.Text>06/04/2025, depois do culto</Typography.Text>,
+            children: <Typography.Text>17/08/2025, depois do culto</Typography.Text>,
           },
           {
             key: "local",
