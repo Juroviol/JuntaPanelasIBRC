@@ -17,13 +17,15 @@ export default function Step2() {
   const existentRegistrationRef = useRef<Registration>();
 
   useEffect(() => {
-    setLoading(true);
-    ProductsService.list().then((products) => {
-      setProducts(products);
-      setLoading(false);
-    });
-    existentRegistrationRef.current = JSON.parse(JSON.stringify(registration)) as Registration;
-  }, []);
+    if (registration?.qtyAdults) {
+      setLoading(true);
+      ProductsService.list().then((products) => {
+        setProducts(products.filter((product) => product.adults.includes(registration.qtyAdults.toString())));
+        setLoading(false);
+      });
+      existentRegistrationRef.current = JSON.parse(JSON.stringify(registration)) as Registration;
+    }
+  }, [registration?.qtyAdults]);
 
   useEffect(() => {
     if (registration && registration.products && products.length) {
@@ -99,13 +101,20 @@ export default function Step2() {
   }, [registration, setStep, setRegistration]);
 
   const disableConfirm = useMemo(
-    () => !byPassMinProductsRule && (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0) < 1,
+    () =>
+      !byPassMinProductsRule &&
+      (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0) <
+        ((registration?.qtyAdults == 2 ? 1 : registration?.qtyAdults) || 0),
     [byPassMinProductsRule, registration]
   );
 
   const qtyProductsToChoose = useMemo(
     () =>
-      max([0, (registration?.qtyAdults || 0) - (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0)]),
+      max([
+        0,
+        ((registration?.qtyAdults === 2 ? 1 : registration?.qtyAdults) || 0) -
+          (registration?.products?.reduce((acc, p) => (acc += p.qty), 0) || 0),
+      ]),
     [registration]
   );
 
@@ -134,7 +143,10 @@ export default function Step2() {
         {byPassMinProductsRule ? (
           <Typography.Title level={4}>Opções para levar</Typography.Title>
         ) : (
-          <Typography.Title level={4}>Escolha no mínimo 1 opção para levar.</Typography.Title>
+          <Typography.Title level={4}>
+            Escolha no mínimo {registration?.qtyAdults === 2 ? 1 : registration?.qtyAdults} opções para levar. Faltam{" "}
+            {qtyProductsToChoose}.
+          </Typography.Title>
         )}
 
         <Flex gap={10}>

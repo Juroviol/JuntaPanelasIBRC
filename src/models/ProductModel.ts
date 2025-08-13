@@ -6,4 +6,5 @@ export default interface Product extends FieldSet {
   qty: number;
   image: string;
   observation: string;
+  adults: string[];
 }

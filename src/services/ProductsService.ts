@@ -1,5 +1,5 @@
 import Base from "@/core/Base";
-import { FieldSet, Table, Attachment } from "airtable";
+import { Attachment, FieldSet, Table } from "airtable";
 import Product from "@/models/ProductModel";
 
 class ProductsService {
@@ -21,12 +21,14 @@ class ProductsService {
       const qty = r.fields["Quantidade"] as number;
       const observation = r.fields["Observação"] as string;
       const [image] = r.fields["Imagem"] as Array<Attachment>;
+      const adults = (r.fields["Adultos"] || []) as string[];
       return {
         id,
         name,
         qty,
         observation,
         image: image.url,
+        adults,
       };
     });
   }

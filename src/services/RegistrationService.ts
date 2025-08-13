@@ -190,6 +190,7 @@ class RegistrationService {
             qty: product.fields["Quantidade"] as number,
             observation: product.fields["Observação"] as string,
             image: image.url,
+            adults: product.fields["Adultos"] as string[],
           },
           qty: rp.fields["Quantidade"] as number,
         };
